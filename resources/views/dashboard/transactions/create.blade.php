@@ -5,17 +5,18 @@
         <div class="col-lg-10">
             <div class="card mb-4">
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Scan barcode Buku</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <video id="video" style="height: 30rem; width: 40rem;" autoplay></video>
+                            @csrf
+                        </div>
+                    </div>
+                    <hr>
                     <form method="post" action="/dashboard/transactions">
                         @csrf
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Scan barcode Buku</p>
-                            </div>
-                            <div class="col-sm-9">
-                                <video id="video" style="height: 30rem; width: 40rem;" autoplay></video>
-                            </div>
-                        </div>
-                        <hr>
                         <div class="row">
                             <div class="col-sm-3">
                                 <p class="mb-0">Buku yang Dipinjam</p>
@@ -129,25 +130,62 @@
 
 @push('scripts')
     <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="module">
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 900,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer
+                toast.onmouseleave = Swal.resumeTimer
+            }
+        })
+
         const startQRCodeScan = async () => {
             try {
                 const codeReader = new ZXing.BrowserBarcodeReader()
                 const result = await codeReader.getVideoInputDevices(undefined, 'video')
 
                 if (result && result.length) {
+                    const scanResult = await codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video')
+                    const barCodeFromReader = scanResult.text
 
-                    // Decode barcode from the first available video input device with CODE_128 format
-                    const scanResult = await codeReader.decodeFromInputVideoDevice(result[0].deviceId,
-                    'video'); // Pass hints to enable specific formats
+                    console.log(barCodeFromReader);
+                    const formData = new FormData()
+                    formData.append('barcode', barCodeFromReader)
 
-                    console.log(scanResult);
-                    const barcodeDataFromReader = scanResult.text; // Renamed the variable
-                    // Further processing of the barcode data
+                    const csrfToken = document.querySelector('input[name="_token"]').value
+                    formData.append('_token', csrfToken)
+
+                    const response = await fetch('/api/check_barcode/', {
+                        method: 'POST',
+                        body: formData
+                    })
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok')
+                    }
+
+                    const data = await response.json()
+
+                    // Show response using SweetAlert toast
+                    Toast.fire({
+                        icon: data.type === 'success' ? 'success' : 'error',
+                        title: data.message
+                    })
+                } else {
+                    throw new Error('No video input devices found.')
                 }
             } catch (error) {
                 console.error('Error:', error)
+                Toast.fire({
+                    icon: 'error',
+                    title: error.message || 'An error occurred. Please try again later.'
+                })
             } finally {
                 // Restart QR code scan after showing toast with a delay of 1000 milliseconds (1 second)
                 setTimeout(startQRCodeScan, 1000)

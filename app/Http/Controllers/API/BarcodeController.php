@@ -12,7 +12,7 @@ class BarcodeController extends Controller
     {
         // Validate the input barcode
         $request->validate([
-            'barcode' => 'required|digits:13', // EAN13 barcode should be 13 digits long
+            'barcode' => 'required', // EAN13 barcode should be 13 digits long
         ]);
 
         // Retrieve the barcode from the request
@@ -22,15 +22,13 @@ class BarcodeController extends Controller
         $paddedInputBarcode = str_pad($inputBarcode, 13, '0', STR_PAD_LEFT);
 
         // Query the database to find a match
-        $book = Book::where('no_barcode', $paddedInputBarcode)->first();
-
-        echo $book;
+        $book = Book::where('no_barcode', $paddedInputBarcode)->orWhere('no_barcode', $inputBarcode)->first();
 
         // Check if a book with the given barcode exists
         if ($book) {
-            return response()->json(['message' => 'Barcode exists in the database.', 'book' => $book], 200);
+            return response()->json(['message' => 'Barcode exists in the database.', 'type'=> 'success', 'book' => $book], 200);
         } else {
-            return response()->json(['message' => 'Barcode does not exist in the database.'], 404);
+            return response()->json(['message' =>'Barcode does not exist in the database.', 'type' => 'failed'], 404);
         }
     }
 }
