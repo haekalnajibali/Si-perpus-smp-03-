@@ -60,6 +60,7 @@
                                 <th scope="col">Nomor Telepon</th>
                                 <th scope="col">Jenis Anggota</th>
                                 <th scope="col">Foto</th>
+                                <th scope="col">Barcode</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -78,6 +79,7 @@
                                 <td><img class="rounded-circle" width="100px"
                                         src="{{ asset('storage/images/' . $member->nama_gambar) }}">
                                 </td>
+                                <td class="p-2 text-center">{!! DNS1D::getBarcodeSVG($member->nisn, 'C128B', 3, 70) !!}</td>
                                 <td>
                                     <a href="/dashboard/members/{{ $member->nisn }}/edit"
                                         class="badge bg-warning border-0">Edit</a>
