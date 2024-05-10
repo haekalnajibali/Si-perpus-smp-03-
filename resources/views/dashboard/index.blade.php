@@ -181,7 +181,7 @@
     {{-- {{ dd($label) }} --}}
 </section>
 <script src="{{ asset('argon/js/plugins/chartjs.min.js')}}"></script>
-<script>
+{{-- <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
     console.log("Hello world!");
 // var datalabel =  {{json_encode($label)}};
@@ -266,7 +266,7 @@
         },
       },
     });
-</script>
+</script> --}}
 <script>
     (function($) {
             $.fn.counter = function() {

@@ -64,6 +64,7 @@
     </main>
 
     </div>
+    @stack('scripts')
 </body>
 
 <script src="{{ asset('argon/js/plugins/chartjs.min.js') }}"></script>
