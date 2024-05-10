@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use Milon\Barcode\Facades\DNS1DFacade as DNS1D;
 
 class BarcodeController extends Controller
 {
@@ -24,9 +23,9 @@ class BarcodeController extends Controller
 
         // Check if a book with the given barcode exists
         if ($book) {
-            return response()->json(['message' => 'Barcode exists in the database.', 'type'=> 'success', 'book' => $book->id], 200);
+            return response()->json(['message' => 'Buku ' . $book->judul . ' ditemukan.', 'type'=> 'success', 'book' => $book->id], 200);
         } else {
-            return response()->json(['message' =>'Barcode does not exist in the database.', 'type' =>'error'], 200);
+            return response()->json(['message' =>'Buku tidak ditemukan.', 'type' =>'error'], 200);
         }
     }
 }

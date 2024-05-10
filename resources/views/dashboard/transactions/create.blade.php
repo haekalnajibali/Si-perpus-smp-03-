@@ -113,97 +113,100 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <script type="text/javascript">
-        // Your existing code
-        $(document).ready(function() {
-            $('#buku').selectize({
-                sortField: 'text'
+        <button id="changeValueBtn">Change Value</button>
+        <script type="text/javascript">
+            // Your existing code
+            $(document).ready(function() {
+                $('#buku').selectize({
+                    sortField: 'text'
+                });
             });
-        });
-        $(document).ready(function() {
-            $('#peminjam').selectize({
-                sortField: 'text'
+            $(document).ready(function() {
+                $('#peminjam').selectize({
+                    sortField: 'text'
+                });
             });
-        });
-    </script>
-@endsection
+        </script>
+    @endsection
 
-@push('scripts')
-    <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @push('scripts')
+        <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <script type="module">
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 900,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer
-                toast.onmouseleave = Swal.resumeTimer
-            }
-        })
-
-        const startQRCodeScan = async () => {
-            try {
-                const codeReader = new ZXing.BrowserBarcodeReader()
-                const result = await codeReader.getVideoInputDevices(undefined, 'video')
-
-                if (result && result.length) {
-                    const scanResult = await codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video')
-                    const barCodeFromReader = scanResult.text
-
-                    const formData = new FormData()
-                    formData.append('barcode', barCodeFromReader)
-
-                    console.log(barCodeFromReader);
-
-                    const csrfToken = document.querySelector('input[name="_token"]').value
-                    formData.append('_token', csrfToken)
-
-                    const response = await fetch('/api/check_barcode/', {
-                        method: 'POST',
-                        body: formData
-                    })
-
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok')
-                    }
-
-                    const data = await response.json();
-
-                    // Replace the value of 'book_id' with the book id from the response
-                    console.log(document.getElementById('buku').value);
-                    const bookId = data.book
-                    console.log(bookId);
-                    document.getElementById('buku').value = bookId.toString();
-                    console.log(document.getElementById('buku').value);
-
-                    // Show response using SweetAlert toast
-                    Toast.fire({
-                        icon: data.type === 'success' ? 'success' : 'error',
-                        title: data.message
-                    });
-
-                } else {
-                    throw new Error('No video input devices found.')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 900,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer
+                    toast.onmouseleave = Swal.resumeTimer
                 }
-            } catch (error) {
-                console.error('Error:', error)
-                Toast.fire({
-                    icon: 'error',
-                    title: error.message || 'An error occurred. Please try again later.'
-                })
-            } finally {
-                // Restart QR code scan after showing toast with a delay of 1000 milliseconds (1 second)
-                setTimeout(startQRCodeScan, 1000)
-            }
-        }
+            });
 
-        // Start QR code scan initially
-        startQRCodeScan()
-    </script>
-@endpush
+            const startQRCodeScan = () => {
+                try {
+                    const codeReader = new ZXing.BrowserBarcodeReader();
+                    codeReader.getVideoInputDevices(undefined, 'video')
+                        .then(result => {
+                            if (result && result.length) {
+                                return codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video');
+                            } else {
+                                throw new Error('No video input devices found.');
+                            }
+                        })
+                        .then(scanResult => {
+                            const barCodeFromReader = scanResult.text;
+                            const formData = new FormData();
+                            formData.append('barcode', barCodeFromReader);
+
+                            const csrfToken = $('input[name="_token"]').val();
+                            formData.append('_token', csrfToken);
+
+                            return $.ajax({
+                                url: '/api/check_barcode/',
+                                method: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false
+                            });
+                        })
+                        .then(data => {
+                            if (data.type == 'success') {
+                                const bookId = data.book;
+                                $('#buku').val(bookId.toString()).change();
+                            }
+
+                            Toast.fire({
+                                icon: data.type === 'success' ? 'success' : 'error',
+                                title: data.message
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Toast.fire({
+                                icon: 'error',
+                                title: error.message || 'An error occurred. Please try again later.'
+                            });
+                        })
+                        .finally(() => {
+                            setTimeout(startQRCodeScan(), 1000);
+                        });
+                } catch (error) {
+                    console.error('Error:', error);
+                    Toast.fire({
+                        icon: 'error',
+                        title: error.message || 'An error occurred. Please try again later.'
+                    });
+                }
+            };
+
+            $(document).ready(() => {
+                startQRCodeScan();
+            });
+        </script>
+    @endpush
