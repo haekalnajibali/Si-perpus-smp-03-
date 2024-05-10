@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <p class="mb-2">Scan barcode Buku</p>
+                            <p class="mb-2">Scan barcode</p>
                         </div>
                     </div>
                     <div class="row">
@@ -50,6 +50,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <select class="form-select" id="peminjam" name="member_id">
+                                    <option value="" selected>Pilih Peminjam</option>
                                     @foreach ($members as $member)
                                         @if (old('member_id') == $member->nisn)
                                             <option value="{{ $member->nisn }}" selected>{{ $member->nama }}
@@ -153,6 +154,8 @@
                     const codeReader = new ZXing.BrowserBarcodeReader();
                     codeReader.getVideoInputDevices(undefined, 'video')
                         .then(result => {
+
+                            console.log(result);
                             if (result && result.length) {
                                 return codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video');
                             } else {
@@ -177,8 +180,15 @@
                         })
                         .then(data => {
                             if (data.type == 'success') {
-                                const bookId = data.book;
-                                $('#buku').val(bookId.toString()).change();
+                                if (data.book) {
+                                    const bookId = data.book;
+                                    $('#buku').val(bookId.toString()).change();
+                                }
+
+                                if (data.member) {
+                                    const memberId = data.member;
+                                    $('#peminjam').val(memberId.toString()).change();
+                                }
                             }
 
                             Toast.fire({

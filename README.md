@@ -3,7 +3,7 @@
 - Controller that handler barcode check // Done
 - Save those response to the Select Option Buku // Done
 - Barcode for Member from NISN Column // Done
-- Scan Barcode of Member on Peminjaman Page
+- Scan Barcode of Member on Peminjaman Page // Done
 - Show Barcode on Member Card // Done
 - Transaksi Pengembalian table with relation on Member, Buku, and Transaksi
 - API Controller that handle Pengembalian

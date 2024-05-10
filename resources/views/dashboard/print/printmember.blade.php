@@ -137,9 +137,11 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="m-auto">
-                                <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($member->nisn, 'C128B', 3, 70) }}"
-                                    alt="barcode"  style="width: 12cm; height: 1cm;" />
+                            <div class="m-auto" >
+                                {{-- <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($member->nisn, 'C128B', 3, 70) }}"
+                                    alt="barcode"  /> --}}
+
+                                    {!! DNS1D::getBarcodeSVG($member->nisn, 'C128B', 3, 70) !!}
                             </div>
                         </div>
                     </div>
