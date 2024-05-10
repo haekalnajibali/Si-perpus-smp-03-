@@ -50,6 +50,8 @@
     <link href="{{ asset('argon/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('argon/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+
+
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -64,6 +66,7 @@
     </main>
 
     </div>
+    @stack('scripts')
 </body>
 
 <script src="{{ asset('argon/js/plugins/chartjs.min.js') }}"></script>
