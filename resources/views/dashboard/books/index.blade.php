@@ -107,7 +107,7 @@
                                 <td class="align-middle text-center">{{ $books->firstItem() + $key }}</td>
                                 <td>{{ $book->rak->kategori ?? 'None' }}</td>
                                 <td>{{ $book->judul }}</td>
-                                <td> {!! DNS1D::getBarcodeSVG($book->no_barcode, 'EAN13', 3, 70) !!}</td>
+                                <td> {!! DNS1D::getBarcodeSVG($book->no_barcode, 'C128B') !!}</td>
                                 <td>{{ $book->pengarang }}</td>
                                 <td>{{ $book->penerbit }}</td>
                                 <td>{{ $book->thn_terbit }}</td>

@@ -6,11 +6,13 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Scan barcode Buku</p>
+                        <div class="col-sm-12">
+                            <p class="mb-2">Scan barcode Buku</p>
                         </div>
-                        <div class="col-sm-9">
-                            <video id="video" style="height: 30rem; width: 40rem;" autoplay></video>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 m-auto">
+                            <video id="video" style="height: 20rem; width: 40rem;" autoplay></video>
                             @csrf
                         </div>
                     </div>
@@ -113,8 +115,8 @@
         </div>
     </div>
 
-
-    <script>
+    <script type="text/javascript">
+        // Your existing code
         $(document).ready(function() {
             $('#buku').selectize({
                 sortField: 'text'
@@ -154,9 +156,10 @@
                     const scanResult = await codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video')
                     const barCodeFromReader = scanResult.text
 
-                    console.log(barCodeFromReader);
                     const formData = new FormData()
                     formData.append('barcode', barCodeFromReader)
+
+                    console.log(barCodeFromReader);
 
                     const csrfToken = document.querySelector('input[name="_token"]').value
                     formData.append('_token', csrfToken)
@@ -170,13 +173,21 @@
                         throw new Error('Network response was not ok')
                     }
 
-                    const data = await response.json()
+                    const data = await response.json();
+
+                    // Replace the value of 'book_id' with the book id from the response
+                    console.log(document.getElementById('buku').value);
+                    const bookId = data.book
+                    console.log(bookId);
+                    document.getElementById('buku').value = bookId.toString();
+                    console.log(document.getElementById('buku').value);
 
                     // Show response using SweetAlert toast
                     Toast.fire({
                         icon: data.type === 'success' ? 'success' : 'error',
                         title: data.message
-                    })
+                    });
+
                 } else {
                     throw new Error('No video input devices found.')
                 }
