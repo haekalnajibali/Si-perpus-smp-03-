@@ -31,13 +31,11 @@
                                             {{ $book->eksemplar }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-
                             </div>
                             <div class="col-sm-9">
                                 <input type="hidden" class="form-control" name="user_id" required
@@ -154,8 +152,6 @@
                     const codeReader = new ZXing.BrowserBarcodeReader();
                     codeReader.getVideoInputDevices(undefined, 'video')
                         .then(result => {
-
-                            console.log(result);
                             if (result && result.length) {
                                 return codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video');
                             } else {
@@ -171,7 +167,7 @@
                             formData.append('_token', csrfToken);
 
                             return $.ajax({
-                                url: '/api/check_barcode/',
+                                url: '/api/peminjaman/',
                                 method: 'POST',
                                 data: formData,
                                 processData: false,

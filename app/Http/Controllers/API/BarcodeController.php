@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\BarcodeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Member;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class BarcodeController extends Controller
 {
-    public function checkBarcode(Request $request)
+    public function peminjaman(Request $request)
     {
         // Validate the input barcode
         $request->validate([
@@ -19,17 +20,18 @@ class BarcodeController extends Controller
         // Retrieve the barcode from the request
         $inputBarcode = $request->input('barcode');
 
-        // Query the database to find a match
-        $book = Book::where('no_barcode', $inputBarcode)->first();
-        $member = Member::where('nisn', $inputBarcode)->first();
+        // Use the helper function to find the book or member
+        $result = BarcodeHelper::findBookOrMember($inputBarcode);
 
-        // Check if a book or member with the given barcode exists
-        if ($book) {
+        // Respond based on the result
+        if ($result['type'] === 'book') {
+            $book = $result['item'];
             return response()->json(['message' => 'Buku ' . $book->judul . ' ditemukan.', 'type' => 'success', 'book' => $book->id], 200);
-        } elseif ($member) {
+        } elseif ($result['type'] === 'member') {
+            $member = $result['item'];
             return response()->json(['message' => 'Member ' . $member->nama . ' ditemukan.', 'type' => 'success', 'member' => $member->nisn], 200);
         } else {
-            return response()->json(['message' => 'Buku atau member tidak ditemukan.', 'type' => 'error'], 200);
+            return response()->json(['message' => $result['message'], 'type' => 'error'], 200);
         }
     }
 }

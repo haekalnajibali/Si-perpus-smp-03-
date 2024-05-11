@@ -19,11 +19,11 @@ return new class extends Migration {
             $table->foreignId('member_id');
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali');
-            $table->date('tgl_pengembalian');
+            $table->date('tgl_pengembalian')->nullable()->default(null);
             $table->string('status');
-            $table->integer('denda');
+            $table->integer('denda')->nullable()->default(null);
             $table->integer('jml_pinjam');
-            $table->integer('jml_hari');
+            $table->integer('jml_hari')->nullable()->default(null);
             $table->timestamps();
         });
     }

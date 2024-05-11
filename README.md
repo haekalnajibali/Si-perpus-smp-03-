@@ -5,8 +5,10 @@
 - Barcode for Member from NISN Column // Done
 - Scan Barcode of Member on Peminjaman Page // Done
 - Show Barcode on Member Card // Done
-- Transaksi Pengembalian table with relation on Member, Buku, and Transaksi
+- Transaksi Pengembalian table with relation on Member, Buku, and Transaksi // Done
+- Scan Barcode process as Helpers // Done
 - API Controller that handle Pengembalian
+- When Peminjaman Create Record on Transaksi Pengembalian, when Pengembalian Delete those Record (Just for query purposes, not record the track of Pengembalian)
 - Query to get Transaksi based on Combine of Member & Buku on Transaksi Pengembalian Table
 - Do Pengembalian Logic after get the Transaksi
 - Pengembalian Pages that Scan Barcode of Member & Buku
