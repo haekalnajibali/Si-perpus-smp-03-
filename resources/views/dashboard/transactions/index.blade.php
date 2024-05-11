@@ -62,9 +62,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $a = 1; ?>
+                            @foreach ($transactions as $transaction)
                             <tr>
-                                <?php $a = 1; ?>
-                                @foreach ($transactions as $transaction)
                                 <td class="align-middle text-center">{{ $a++ }}</td>
                                 <td>{{ $transaction->book->judul }}</td>
                                 <td>{{ $transaction->user->nama }}</td>

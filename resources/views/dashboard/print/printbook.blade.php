@@ -14,8 +14,7 @@
             <div class="barcode text-center">
                 <p class="name">{{ $book->judul }}</p>
                 <p class="price">Pengarang: {{ $book->pengarang }}</p>
-                <center>{!! DNS1D::getBarcodeSVG($book->no_barcode, "C128", 1.4, 50) !!}</center><br>
-                <td> {!! DNS1D::getBarcodeSVG($book->no_barcode, 'EAN13', 1.4, 50) !!}</td>
+                <center>{!! DNS1D::getBarcodeSVG($book->no_barcode, 'C128B', 3, 70) !!}</center><br>
             </div>
         </div>
     </div>

@@ -2,119 +2,128 @@
 
 @section('container')
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card mb-4">
-            <div class="card-body">
-                <form method="post" action="/dashboard/books/{{ $book->id }}" enctype="multipart/form-data">
-                    @method('put')
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">ID.</p>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="post" action="/dashboard/books/{{ $book->id }}" enctype="multipart/form-data">
+                        @method('put')
+                        @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-warning">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">ID.</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="id" value="{{ old('id', $book->id) }}"
+                                    readonly>
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="id" value="{{ old('id', $book->id) }}"
-                                readonly>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Kategori</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-select" id="kategori" name="rak_id">
+                                    @foreach ($raks as $rak)
+                                        @if (old('rak_id', $book->rak_id) == $rak->id)
+                                            <option value="{{ $rak->id }}" selected>{{ $rak->kategori }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $rak->id }}">{{ $rak->kategori }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Kategori</p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Judul Buku</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="judul" required
+                                    value="{{ old('judul', $book->judul) }}" autofocus>
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <select class="form-select" id="kategori" name="rak_id">
-                                @foreach ($raks as $rak)
-                                @if (old('rak_id', $book->rak_id) == $rak->id)
-                                <option value="{{ $rak->id }}" selected>{{ $rak->kategori }}
-                                </option>
-                                @else
-                                <option value="{{ $rak->id }}">{{ $rak->kategori }}</option>
-                                @endif
-                                @endforeach
-                            </select>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Nomor Barcode</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="no_barcode" required
+                                    value="{{ old('no_barcode', $book->no_barcode) }}" id="intTextBox1" maxlength="13">
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Judul Buku</p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Pengarang</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="pengarang"
+                                    value="{{ old('pengarang', $book->pengarang) }}" required>
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="judul" required
-                                value="{{ old('judul', $book->judul) }}" autofocus>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Penerbit</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="penerbit"
+                                    value="{{ old('penerbit', $book->penerbit) }}" required>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Nomor Barcode</p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Tahun Terbit</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                    value="{{ old('thn_terbit', $book->thn_terbit) }}" name="thn_terbit" required>
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="no_barcode" required
-                                value="{{ old('no_barcode', $book->no_barcode) }}" id="intTextBox1" maxlength="13">
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Eksemplar</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="number" min="0" class="form-control" name="eksemplar" id="intTextBox2"
+                                    value="{{ old('eksemplar', $book->eksemplar) }}" required>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Pengarang</p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Cover Buku</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="file" accept=".jpg,.gif,.png" id="image"
+                                    name="nama_gambar" onchange="previewImage()">
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pengarang"
-                                value="{{ old('pengarang', $book->pengarang) }}" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Penerbit</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="penerbit"
-                                value="{{ old('penerbit', $book->penerbit) }}" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Tahun Terbit</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" value="{{ old('thn_terbit', $book->thn_terbit) }}"
-                                name="thn_terbit" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Eksemplar</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="number" min="0" class="form-control" name="eksemplar" id="intTextBox2"
-                                value="{{ old('eksemplar', $book->eksemplar) }}" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Cover Buku</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="file" accept=".jpg,.gif,.png" id="image"
-                                name="nama_gambar" onchange="previewImage()">
-                        </div>
-                    </div>
-                    <hr>
-                    <button class="btn btn-primary" type="submit">Ubah Buku</button>
-                </form>
+                        <hr>
+                        <button class="btn btn-primary" type="submit">Ubah Buku</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    // Restricts input for the given textbox to the given inputFilter.
+    <script>
+        // Restricts input for the given textbox to the given inputFilter.
         function setInputFilter(textbox, inputFilter, errMsg) {
             ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout"].forEach(
                 function(event) {
@@ -162,12 +171,12 @@
             postText: ' angka tersedia.',
             validate: true
         });
-</script>
-<script>
-    $(document).ready(function() {
+    </script>
+    <script>
+        $(document).ready(function() {
             $('#kategori').selectize({
                 sortField: 'text'
             });
         });
-</script>
+    </script>
 @endsection

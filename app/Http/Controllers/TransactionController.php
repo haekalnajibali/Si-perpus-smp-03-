@@ -14,6 +14,7 @@ use DateTime;
 use Illuminate\Http\Request;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
 {
@@ -83,6 +84,16 @@ class TransactionController extends Controller
             'book_id.unique' => 'Transaksi dengan buku dan anggota tersebut sudah ada.',
         ]);
 
+        // Check if eksemplar is greater than or equal to jml_pinjam
+        $book = Book::find($request->book_id);
+        if ($book->eksemplar < $request->jml_pinjam) {
+            throw ValidationException::withMessages([
+                'jml_pinjam' => 'Jumlah pinjaman melebihi jumlah eksemplar yang tersedia.',
+            ]);
+        }
+        // Decrement the eksemplar count of the book
+        $book->decrement('eksemplar', $request->jml_pinjam);
+
         // Create a new transaction record
         $transaction = Transaction::create([
             'book_id' => $request->book_id,
@@ -100,8 +111,6 @@ class TransactionController extends Controller
             'member_id' => $request->member_id,
             'transaction_id' => $transaction->id,
         ]);
-
-        Book::find($request->book_id)->decrement('eksemplar', $request->jml_pinjam);
 
         return redirect('/dashboard/transactions')->with('success', 'Transaksi baru telah ditambahkan.');
     }
