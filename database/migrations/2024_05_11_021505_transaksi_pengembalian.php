@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('transaksi_pengembalians', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->unique();
-            $table->foreignId('member_id')->unique();
-            $table->foreignId('transaction_id')->unique();
+            $table->foreignId('book_id');
+            $table->foreignId('member_id');
+            $table->foreignId('transaction_id');
             $table->timestamps();
 
             // // Define foreign key constraints
@@ -26,7 +26,7 @@ return new class extends Migration
             // $table->foreign('transaction_id')->references('id')->on('transactions');
 
             // Enforce unique combination constraint
-            $table->unique(['book_id', 'transaction_id', 'member_id']);
+            $table->unique(['book_id', 'member_id']);
         });
     }
 

@@ -12,8 +12,9 @@
 - Query to get Transaksi based on Combine of Member & Buku on Transaksi Pengembalian Table // Done
 - Do Pengembalian Logic after get the Transaksi // Done
 - Pengembalian Pages that Scan Barcode of Member & Buku // Done
-- Return the Error State while Check the Pengembalian
+- Return the Error State while Check the Pengembalian // Done
 
 # Note
 - Can't access camera with Laragon Virtual (run with `php artisan serve` instead)
 - Need to replace / override the Jquery with new CDN
+- Unique Combination Only can Contain Two Column

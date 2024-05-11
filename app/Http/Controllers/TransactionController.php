@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
+
 class TransactionController extends Controller
 {
     /**
@@ -68,6 +70,19 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request)
     {
+        // Validate unique combination
+        $request->validate([
+            'book_id' => [
+                'required',
+                Rule::unique('transaksi_pengembalians')->where(function ($query) use ($request) {
+                    return $query->where('book_id', $request->book_id)
+                        ->where('member_id', $request->member_id);
+                }),
+            ],
+        ], [
+            'book_id.unique' => 'Transaksi dengan buku dan anggota tersebut sudah ada.',
+        ]);
+
         // Create a new transaction record
         $transaction = Transaction::create([
             'book_id' => $request->book_id,
@@ -131,9 +146,9 @@ class TransactionController extends Controller
             // Increment the eksemplar count of the book
             Book::find($request->book_id)->increment('eksemplar', $transaction->jml_pinjam);
 
-            return redirect('/dashboard/transactions')->with('success', 'Transaksi telah selesai.');
+            return redirect('/dashboard/transactions')->with('success', 'Pengembalian telah selesai.');
         } else {
-            return redirect('/dashboard/transactions')->with('error', 'Transaksi tidak ditemukan.');
+            return redirect('/dashboard/pengembalians')->with('error', 'Pengembalian tidak ditemukan.');
         }
     }
 
