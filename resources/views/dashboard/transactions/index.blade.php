@@ -36,6 +36,7 @@
         </div>
 
         <a href="/dashboard/transactions/create" class="btn btn-lg btn-primary mx-4">Tambah Transaksi Peminjaman</a>
+        <a href="/dashboard/pengembalians" class="btn btn-lg btn-primary mx-4">Pengembalian</a>
     </div>
 </div>
 <div class="container mt-3">
@@ -79,13 +80,6 @@
                                     @if ($transaction->status == 'PEMINJAMAN')
                                     <a href="/dashboard/transactions/{{ $transaction->id }}/edit"
                                         class="badge bg-warning border-0">Edit</a>
-                                    <form action="/dashboard/transactions/createpengembalian" method="post"
-                                        class="d-inline">
-                                        @csrf
-                                        <input type="hidden" class="form-control" id="hasil" name="id" required readonly
-                                            value="{{ $transaction->id }}">
-                                        <button class="badge bg-danger border-0">Pengembalian</button>
-                                    </form>
                                     <form action="/dashboard/transactions/hapus" method="post"
                                         class="d-inline">
                                         @csrf

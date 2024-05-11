@@ -8,7 +8,12 @@ use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
+use App\Models\TransaksiPengembalian;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+
+use Illuminate\Validation\Rule;
 
 class TransactionController extends Controller
 {
@@ -45,6 +50,19 @@ class TransactionController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Transaction  $transaction
+     * @return \Illuminate\Http\Response
+     */
+    // public function pengembalian()
+    // {
+    //     dd('alole');
+    //     return view('dashboard.transactions.create');
+    // }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreTransactionRequest  $request
@@ -52,7 +70,21 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request)
     {
-        Transaction::create([
+        // Validate unique combination
+        $request->validate([
+            'book_id' => [
+                'required',
+                Rule::unique('transaksi_pengembalians')->where(function ($query) use ($request) {
+                    return $query->where('book_id', $request->book_id)
+                        ->where('member_id', $request->member_id);
+                }),
+            ],
+        ], [
+            'book_id.unique' => 'Transaksi dengan buku dan anggota tersebut sudah ada.',
+        ]);
+
+        // Create a new transaction record
+        $transaction = Transaction::create([
             'book_id' => $request->book_id,
             'user_id' => $request->user_id,
             'member_id' => $request->member_id,
@@ -61,7 +93,16 @@ class TransactionController extends Controller
             'jml_pinjam' => $request->jml_pinjam,
             'status' => $request->status,
         ]);
+
+        // Create a new transaksi_pengembalian record
+        TransaksiPengembalian::create([
+            'book_id' => $request->book_id,
+            'member_id' => $request->member_id,
+            'transaction_id' => $transaction->id,
+        ]);
+
         Book::find($request->book_id)->decrement('eksemplar', $request->jml_pinjam);
+
         return redirect('/dashboard/transactions')->with('success', 'Transaksi baru telah ditambahkan.');
     }
     /**
@@ -72,22 +113,64 @@ class TransactionController extends Controller
      */
     public function prosespengembalian(Request $request)
     {
-        Transaction::where('id', $request['id'])->update([
-            'status' => $request->status,
-            'tgl_pengembalian' => $request->tgl_pengembalian,
-            'jml_hari' => $request->jml_hari,
-            'denda' => $request->denda,
-        ]);
-        Book::find($request->book_id)->increment('eksemplar', $request['jml_pinjam']);
-        return redirect('/dashboard/transactions')->with('success', 'Transaksi telah selesai.');
+        // Retrieve the transaction based on the combination of member_id and book_id
+        $return_transaction = TransaksiPengembalian::where('member_id', $request->member_id)
+            ->where('book_id', $request->book_id)
+            ->first();
+
+        // Check if the transaction exists
+        if ($return_transaction) {
+
+            // Update the transaction details
+            $transaction = Transaction::find($return_transaction->transaction_id);
+
+            // Get the current date and time in the same format as tgl_kembali
+            $tgl_pengembalian = Carbon::now()->format('Y-m-d');
+            // Calculate jml_hari and denda
+            $tgl_pinjam = new Carbon($transaction->tgl_pinjam);
+            $tgl_kembali = new Carbon($tgl_pengembalian);
+            $difference = $tgl_kembali->diffInDays($tgl_pinjam);
+            $jml_hari = $difference;
+            $denda = $jml_hari > 7 ? ($jml_hari - 7) * 500 : 0;
+
+            // Update the transaction details
+            $transaction->update([
+                'status' => 'PENGEMBALIAN',
+                'tgl_pengembalian' => $tgl_kembali,
+                'jml_hari' => $jml_hari,
+                'denda' => $denda,
+            ]);
+
+            $return_transaction->delete();
+
+            // Increment the eksemplar count of the book
+            Book::find($request->book_id)->increment('eksemplar', $transaction->jml_pinjam);
+
+            return redirect('/dashboard/transactions')->with('success', 'Pengembalian telah selesai.');
+        } else {
+            return redirect('/dashboard/pengembalians')->with('error', 'Pengembalian tidak ditemukan.');
+        }
     }
 
     public function proseshapus(Request $request)
     {
-        Transaction::where('id', $request['id'])->update([]);
-        Book::find($request->book_id)->increment('eksemplar', $request['jml_pinjam']);
-        Transaction::where('id', $request['id'])->delete([]);
-        return redirect('/dashboard/transactions')->with('success', 'Transaksi berhasil dihapus.');
+        // Retrieve the transaction
+        $transaction = Transaction::find($request['id']);
+
+        if ($transaction) {
+            // Increment the eksemplar count of the book
+            Book::find($transaction->book_id)->increment('eksemplar', $transaction->jml_pinjam);
+
+            // Delete the transaction
+            $transaction->delete();
+
+            // Delete the associated record from transaksi_pengembalian table
+            TransaksiPengembalian::where('transaction_id', $request['id'])->delete();
+
+            return redirect('/dashboard/transactions')->with('success', 'Transaksi berhasil dihapus.');
+        } else {
+            return redirect('/dashboard/transactions')->with('error', 'Transaksi tidak ditemukan.');
+        }
     }
 
     /**
@@ -99,22 +182,6 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function pengembalian(Request $request)
-    {
-        return view('dashboard.transactions.return', [
-            'books' => Book::all(),
-            'members' => Member::all(),
-            'transaction' => Transaction::where('id', $request->id)->first(),
-            'active' => 'transactions',
-        ]);
     }
 
     /**

@@ -24,7 +24,8 @@
                                     <center>SMP NEGERI 03 KOTA BENGKULU</center>
                                 </h6>
                                 <h6 style="font-size: 8pt;">
-                                    <center>JL. Iskandar, No. 474, Tengah Padang, Kec. Tlk. Segara, Kota Bengkulu, Bengkulu 38114</center>
+                                    <center>JL. Iskandar, No. 474, Tengah Padang, Kec. Tlk. Segara, Kota Bengkulu,
+                                        Bengkulu 38114</center>
                                 </h6>
                                 <h6 style="font-size: 10pt; font-weight:bold;">
                                     <center>KARTU ANGGOTA PERPUSTAKAAN</center>
@@ -84,6 +85,7 @@
                                 <br>
                                 <img src="{{ asset('storage/images/' . $member->nama_gambar) }}" class="rounded"
                                     style="height: 3cm; width:3cm;">
+
                             </div>
                         </div>
                     </div>
@@ -104,7 +106,8 @@
                                     <center>SMP NEGERI 03 KOTA BENGKULU</center>
                                 </h6>
                                 <h6 style="font-size: 8pt;">
-                                    <center>JL. Iskandar, No. 474, Tengah Padang, Kec. Tlk. Segara, Kota Bengkulu, Bengkulu 38114</center>
+                                    <center>JL. Iskandar, No. 474, Tengah Padang, Kec. Tlk. Segara, Kota Bengkulu,
+                                        Bengkulu 38114</center>
                                 </h6>
                                 <h6 style="font-size: 10pt; font-weight:bold;">
                                     <center>KARTU ANGGOTA PERPUSTAKAAN</center>
@@ -112,7 +115,7 @@
 
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row relative">
                             <div class="col-9" style="padding-right: 0px">
                                 <table class="table table-borderless table-sm"
                                     style="font-size: 10pt; font-weight:lighter;">
@@ -134,7 +137,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="m-auto" >
+                                {{-- <img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($member->nisn, 'C128B', 3, 70) }}"
+                                    alt="barcode"  /> --}}
 
+                                    {!! DNS1D::getBarcodeSVG($member->nisn, 'C128B', 3, 70) !!}
+                            </div>
                         </div>
                     </div>
                 </div>

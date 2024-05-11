@@ -24,6 +24,6 @@ Route::group([
     "as" => "api.",
 ],
     function () {
-        Route::post('/check_barcode', [BarcodeController::class, 'checkBarcode']);
+        Route::post('/peminjaman', [BarcodeController::class, 'peminjaman']);
     }
 );

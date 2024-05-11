@@ -1,157 +1,178 @@
 @extends('dashboard.layouts.mainnew')
 
 @section('container')
-<div class="row py-5 justify-content-center">
-    <div class="col-lg-10">
-        <div class="card mb-4">
-            <div class="card-body"> 
-                <form method="post" action="/dashboard/transactions/prosespengembalian">
-                    @csrf
+    <div class="row justify-content-center">
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session()->has('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <div class="col-lg-10">
+            <div class="card mb-4">
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Buku yang Dipinjam</p>
+                        <div class="col-sm-12">
+                            <p class="mb-2">Scan barcode</p>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="book" required
-                                value="{{ $transaction->book->judul }}" readonly>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="hidden" class="form-control" name="id" required value="{{ $transaction->id }}"
-                                readonly>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="hidden" class="form-control" name="book_id" required
-                                value="{{ $transaction->book_id }}" readonly>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 m-auto">
+                            <video id="video" style="height: 20rem; width: 40rem;" autoplay></video>
+                            @csrf
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
+                    <form method="post" action="/dashboard/transactions/prosespengembalian">
+                        @csrf
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Buku yang Dipinjam</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-select" id="buku" name="book_id">
+                                    <option value="" selected>Pilih Buku</option>
+                                    @foreach ($books as $book)
+                                        <option value="{{ $book->id }}">{{ $book->judul }} | Eksemplar Tersedia :
+                                            {{ $book->eksemplar }}</option>
+                                    @endforeach
+                                </select>
 
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="hidden" class="form-control" name="user_id" required
-                                value="{{ $transaction->user_id }}" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Nama Peminjam</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="user_id" required
-                                value="{{ $transaction->member->nama }}" readonly>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Tanggal Peminjaman</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="date" id="pinjam" class="form-control" name="tgl_pinjam"
-                                value="{{ $transaction->tgl_pinjam }}" readonly>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Tenggat Pengembalian</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tgl_kembali" value="<?php
-                                        echo date('Y-m-d', strtotime($transaction->tgl_pinjam . ' + 7 day')); ?>"
-                                readonly>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Jumlah Eksemplar yang Dipinjam (Jangan melebihi eksemplar
-                                tersedia)</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="jml_pinjam" required id="eksemplarubah"
-                                value="{{ $transaction->jml_pinjam }}" readonly>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Jenis Transaksi</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <select class="form-select" name="status">
-                                <option value="PENGEMBALIAN" selected>PENGEMBALIAN
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Tanggal Pengembalian</p>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="date" class="form-control" id="kembali" name="tgl_pengembalian"
-                                    value="<?php echo date('Y-m-d'); ?>" 
-                                    min="<?phpecho date('Y-m-d', strtotime($transaction->tgl_pinjam . ' + 7 day')); ?>" 
-                                    required readonly
-                                    onchange="PinjamFunction()">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Total Hari Peminjaman</p>
+                                <p class="mb-0">Nama Peminjam</p>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="hasil" name="jml_hari" required readonly>
+                                <select class="form-select" id="peminjam" name="member_id">
+                                    <option value="" selected>Pilih Peminjam</option>
+                                    @foreach ($members as $member)
+                                        @if (old('member_id') == $member->nisn)
+                                            <option value="{{ $member->nisn }}" selected>{{ $member->nama }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $member->nisn }}">{{ $member->nama }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Denda Rp.500/Hari(Maksimal 7 Hari Peminjaman) </p>
-                            </div>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="denda" name="denda" required readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <button class="btn btn-primary" type="submit">Selesaikan Transaksi</button>
-                </form>
+                        <button class="btn btn-primary" type="submit">Lakukan Pengembalian</button>
+                    </form>
+                </div>
             </div>
         </div>
+        <script type="text/javascript">
+            // Your existing code
+            $(document).ready(function() {
+                $('#buku').selectize({
+                    sortField: 'text'
+                });
+            });
+            $(document).ready(function() {
+                $('#peminjam').selectize({
+                    sortField: 'text'
+                });
+            });
+        </script>
+
     </div>
-</div>
-<script>
-    $(window).on('load', function() {
-    PinjamFunction();
-})
-    function PinjamFunction() {
-            var datepinjam = new Date($('#pinjam').val());
-            var datekembali = new Date($('#kembali').val());
+    @endsection
 
-            var difference = datekembali.getTime() - datepinjam.getTime();
-            var Difference_In_Days = difference / (1000 * 3600 * 24);
-            document.getElementById("hasil").value = Difference_In_Days;
+    @push('scripts')
+        <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-            if (Difference_In_Days > 7) {
-                var haridenda = Difference_In_Days - 7;
-                var denda = 500 * haridenda;
-                document.getElementById("denda").value = denda;
-            } else {
-                document.getElementById("denda").value = 0;
-            }
-        }
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 900,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer
+                    toast.onmouseleave = Swal.resumeTimer
+                }
+            });
 
-        function EksemplarFunction() {
-            var eksemplarawal = document.getElementById("eksemplarawal").value;
-            var eksemplarubah = document.getElementById("eksemplarubah").value;
-        }
-</script>
-@endsection
+            const startQRCodeScan = () => {
+                try {
+                    const codeReader = new ZXing.BrowserBarcodeReader();
+                    codeReader.getVideoInputDevices(undefined, 'video')
+                        .then(result => {
+                            if (result && result.length) {
+                                return codeReader.decodeFromInputVideoDevice(result[0].deviceId, 'video');
+                            } else {
+                                throw new Error('No video input devices found.');
+                            }
+                        })
+                        .then(scanResult => {
+                            const barCodeFromReader = scanResult.text;
+                            const formData = new FormData();
+                            formData.append('barcode', barCodeFromReader);
+
+                            const csrfToken = $('input[name="_token"]').val();
+                            formData.append('_token', csrfToken);
+
+                            return $.ajax({
+                                url: '/api/peminjaman/',
+                                method: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false
+                            });
+                        })
+                        .then(data => {
+                            if (data.type == 'success') {
+                                if (data.book) {
+                                    const bookId = data.book;
+                                    $('#buku').val(bookId.toString()).change();
+                                }
+
+                                if (data.member) {
+                                    const memberId = data.member;
+                                    $('#peminjam').val(memberId.toString()).change();
+                                }
+                            }
+
+                            Toast.fire({
+                                icon: data.type === 'success' ? 'success' : 'error',
+                                title: data.message
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Toast.fire({
+                                icon: 'error',
+                                title: error.message || 'An error occurred. Please try again later.'
+                            });
+                        })
+                        .finally(() => {
+                            setTimeout(startQRCodeScan(), 1000);
+                        });
+                } catch (error) {
+                    console.error('Error:', error);
+                    Toast.fire({
+                        icon: 'error',
+                        title: error.message || 'An error occurred. Please try again later.'
+                    });
+                }
+            };
+
+            $(document).ready(() => {
+                startQRCodeScan();
+            });
+        </script>
+    @endpush

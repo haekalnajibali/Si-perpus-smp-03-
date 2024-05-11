@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <p class="mb-2">Scan barcode Buku</p>
+                            <p class="mb-2">Scan barcode</p>
                         </div>
                     </div>
                     <div class="row">
@@ -19,6 +19,15 @@
                     <hr>
                     <form method="post" action="/dashboard/transactions">
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-warning">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-sm-3">
                                 <p class="mb-0">Buku yang Dipinjam</p>
@@ -31,13 +40,11 @@
                                             {{ $book->eksemplar }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-
                             </div>
                             <div class="col-sm-9">
                                 <input type="hidden" class="form-control" name="user_id" required
@@ -50,6 +57,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <select class="form-select" id="peminjam" name="member_id">
+                                    <option value="" selected>Pilih Peminjam</option>
                                     @foreach ($members as $member)
                                         @if (old('member_id') == $member->nisn)
                                             <option value="{{ $member->nisn }}" selected>{{ $member->nama }}
@@ -113,7 +121,6 @@
                 </div>
             </div>
         </div>
-        <button id="changeValueBtn">Change Value</button>
         <script type="text/javascript">
             // Your existing code
             $(document).ready(function() {
@@ -168,7 +175,7 @@
                             formData.append('_token', csrfToken);
 
                             return $.ajax({
-                                url: '/api/check_barcode/',
+                                url: '/api/peminjaman/',
                                 method: 'POST',
                                 data: formData,
                                 processData: false,
@@ -177,8 +184,15 @@
                         })
                         .then(data => {
                             if (data.type == 'success') {
-                                const bookId = data.book;
-                                $('#buku').val(bookId.toString()).change();
+                                if (data.book) {
+                                    const bookId = data.book;
+                                    $('#buku').val(bookId.toString()).change();
+                                }
+
+                                if (data.member) {
+                                    const memberId = data.member;
+                                    $('#peminjam').val(memberId.toString()).change();
+                                }
                             }
 
                             Toast.fire({
