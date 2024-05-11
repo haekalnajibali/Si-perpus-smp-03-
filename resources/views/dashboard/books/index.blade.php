@@ -3,8 +3,8 @@
 @section('container')
     <style>
         /* .card {
-            background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(76, 121, 255));
-        } */
+                        background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(76, 121, 255));
+                    } */
     </style>
     <div class="container">
         @if (session()->has('success'))
@@ -36,8 +36,8 @@
                                 value="{{ request('search') }}">
                             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                         </div>
-                        {{-- </form>
-                <form method="post" action="/dashboard/books/import" enctype="multipart/form-data">
+                    </form>
+                    {{-- <form method="post" action="/dashboard/books/import" enctype="multipart/form-data">
                     <div>
                         <p>Input Data Buku dari file spreadsheet (.xlsx, .xls, .csv)</p>
                     </div>
@@ -48,10 +48,10 @@
                     </div>
 
                 </form> --}}
-                        {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Lihat Contoh Format Excel
                 </button> --}}
-                        {{-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    {{-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-l">
                         <div class="modal-content">
@@ -102,8 +102,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    @foreach ($books as $key => $book)
+                                @foreach ($books as $key => $book)
+                                    <tr>
                                         <td class="align-middle text-center">{{ $books->firstItem() + $key }}</td>
                                         <td>{{ $book->rak->kategori ?? 'None' }}</td>
                                         <td>{{ $book->judul }}</td>
@@ -118,14 +118,16 @@
                                         <td>
                                             <a href="/dashboard/books/{{ $book->id }}/edit"
                                                 class="badge bg-warning border-0">Edit</a>
+
                                             <form action="/dashboard/books/print" method="post" class="d-inline"
                                                 target="_blank">
                                                 @csrf
                                                 <input type='hidden' name='id' value='{{ $book->id }}'>
                                                 <button class="badge bg-primary border-0"
-                                                    onclick="return confirm('Cetak Kartu?')">Cetak
-                                                    Barcode</button>
+                                                    onclick="return confirm('Cetak Kartu?')">Cetak Barcode</button>
                                             </form>
+
+
 
                                             <form action="/dashboard/books/{{ $book->id }}" method="post"
                                                 class="d-inline">
@@ -135,7 +137,7 @@
                                                     onclick="return confirm('Anda Yakin?')">Hapus</button>
                                             </form>
                                         </td>
-                                </tr>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

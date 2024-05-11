@@ -13,6 +13,8 @@
 - Do Pengembalian Logic after get the Transaksi // Done
 - Pengembalian Pages that Scan Barcode of Member & Buku // Done
 - Return the Error State while Check the Pengembalian // Done
+- Debug on Print Barcode Book // Done
+- Validated the Ekstemplar so Still Greater Equal To Zero // Done
 
 # Note
 - Can't access camera with Laragon Virtual (run with `php artisan serve` instead)

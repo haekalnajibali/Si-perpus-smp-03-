@@ -8,9 +8,10 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Imports\BookImport;
 use App\Models\Transaction;
+use App\Rules\PositiveInteger;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -60,7 +61,7 @@ class BookController extends Controller
             'pengarang' => 'required',
             'penerbit' => 'required',
             'thn_terbit' => 'required',
-            'eksemplar' => 'required',
+            'eksemplar' => ['required', new PositiveInteger],
             'nama_gambar' => 'image|file|max:50000',
         ]);
         if ($request->file('nama_gambar')) {
@@ -115,7 +116,7 @@ class BookController extends Controller
             'pengarang' => 'required',
             'penerbit' => 'required',
             'thn_terbit' => 'required',
-            'eksemplar' => 'required',
+            'eksemplar' => ['required', new PositiveInteger],
             'nama_gambar' => 'image|file|max:50000',
         ];
         if ($request->no_barcode != $book->no_barcode) {
