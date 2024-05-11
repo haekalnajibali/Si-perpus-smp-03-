@@ -65,12 +65,12 @@
                                 </select>
                             </div>
                         </div>
+                        <hr>
                         <button class="btn btn-primary" type="submit">Lakukan Pengembalian</button>
                     </form>
                 </div>
             </div>
         </div>
-        <button id="changeValueBtn">Change Value</button>
         <script type="text/javascript">
             // Your existing code
             $(document).ready(function() {
@@ -84,6 +84,8 @@
                 });
             });
         </script>
+
+    </div>
     @endsection
 
     @push('scripts')

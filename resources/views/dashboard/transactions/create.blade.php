@@ -112,7 +112,6 @@
                 </div>
             </div>
         </div>
-        <button id="changeValueBtn">Change Value</button>
         <script type="text/javascript">
             // Your existing code
             $(document).ready(function() {

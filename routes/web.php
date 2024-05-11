@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\RakController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
@@ -44,6 +45,7 @@ Route::resource('/dashboard/members', MemberController::class)->middleware('auth
 Route::resource('/dashboard/books', BookController::class)->middleware('auth');
 Route::resource('/dashboard/raks', RakController::class)->middleware('auth');
 Route::resource('/dashboard/transactions', TransactionController::class)->middleware('auth');
+Route::resource('/dashboard/pengembalians', PengembalianController::class)->middleware('auth');
 
 Route::get('/dashboard/reports', [ReportController::class, 'index'])->middleware('auth');
 Route::get('/dashboard/reports/books', [ReportController::class, 'books'])->middleware('auth');
@@ -53,7 +55,9 @@ Route::get('/dashboard/reports/members', [ReportController::class, 'members'])->
 Route::get('/dashboard/reports/transactions', [ReportController::class, 'transactions'])->middleware('auth');
 Route::post('/dashboard/reports/transactions', [ReportController::class, 'transactions'])->middleware('auth');
 
-Route::post('/dashboard/transactions/createpengembalian', [TransactionController::class, 'pengembalian'])->middleware('auth');
+// Route::get('/dashboard/transactions/createpengembalian', [TransactionController::class, 'pengembalian'])
+// ->middleware('auth')
+// ->name('pengembalian');
 Route::post('/dashboard/transactions/prosespengembalian', [TransactionController::class, 'prosespengembalian'])->middleware('auth');
 
 Route::post('/dashboard/transactions/hapus', [TransactionController::class, 'hapus'])->middleware('auth');

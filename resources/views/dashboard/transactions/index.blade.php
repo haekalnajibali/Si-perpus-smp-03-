@@ -36,7 +36,7 @@
         </div>
 
         <a href="/dashboard/transactions/create" class="btn btn-lg btn-primary mx-4">Tambah Transaksi Peminjaman</a>
-        <a href="/dashboard/transactions/createpengembalian" class="btn btn-lg btn-primary mx-4">Pengembalian</a>
+        <a href="/dashboard/pengembalians" class="btn btn-lg btn-primary mx-4">Pengembalian</a>
     </div>
 </div>
 <div class="container mt-3">

@@ -8,10 +8,11 @@
 - Transaksi Pengembalian table with relation on Member, Buku, and Transaksi // Done
 - Scan Barcode process as Helpers // Done
 - API Controller that handle Pengembalian
-- When Peminjaman Create Record on Transaksi Pengembalian, when Pengembalian Delete those Record (Just for query purposes, not record the track of Pengembalian)
-- Query to get Transaksi based on Combine of Member & Buku on Transaksi Pengembalian Table
-- Do Pengembalian Logic after get the Transaksi
-- Pengembalian Pages that Scan Barcode of Member & Buku
+- When Peminjaman Create Record on Transaksi Pengembalian, when Pengembalian Delete those Record (Just for query purposes, not record the track of Pengembalian) // Done
+- Query to get Transaksi based on Combine of Member & Buku on Transaksi Pengembalian Table // Done
+- Do Pengembalian Logic after get the Transaksi // Done
+- Pengembalian Pages that Scan Barcode of Member & Buku // Done
+- Return the Error State while Check the Pengembalian
 
 # Note
 - Can't access camera with Laragon Virtual (run with `php artisan serve` instead)

@@ -53,10 +53,11 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function pengembalian()
-    {
-        return view('dashboard.transactions.return');
-    }
+    // public function pengembalian()
+    // {
+    //     dd('alole');
+    //     return view('dashboard.transactions.create');
+    // }
 
 
     /**
@@ -128,7 +129,7 @@ class TransactionController extends Controller
             $return_transaction->delete();
 
             // Increment the eksemplar count of the book
-            Book::find($request->book_id)->increment('eksemplar', $request['jml_pinjam']);
+            Book::find($request->book_id)->increment('eksemplar', $transaction->jml_pinjam);
 
             return redirect('/dashboard/transactions')->with('success', 'Transaksi telah selesai.');
         } else {
