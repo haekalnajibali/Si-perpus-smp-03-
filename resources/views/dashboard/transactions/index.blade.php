@@ -74,7 +74,6 @@
                                 <td>{{ $transaction->tgl_pengembalian }}</td>
                                 <td>{{ $transaction->status }}</td>
                                 <td>{{ $transaction->denda }}</td>
-                                <td>{{ $transaction->jml_pinjam }}</td>
                                 <td>{{ $transaction->jml_hari }}</td>
                                 <td>
                                     @if ($transaction->status == 'PEMINJAMAN')

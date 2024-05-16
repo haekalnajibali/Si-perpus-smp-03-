@@ -23,8 +23,6 @@
                         </div>
                     </form>
 
-                    <a class="btn btn-warning btn-l rounded-pill" href="/opac/barcode"><i class="bi bi-search"> Cari
-                            Barcode</i></a>
 
                 </div>
                 </p>
