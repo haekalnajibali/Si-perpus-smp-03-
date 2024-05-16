@@ -19,7 +19,7 @@ class RakController extends Controller
     {
         return view('dashboard.raks.index', [
             'active' => 'raks',
-            'raks' => Rak::latest()->paginate(7),
+            'raks' => Rak::latest()->paginate(20),
             'count' => Rak::get()->count(), 
         ]);
     }

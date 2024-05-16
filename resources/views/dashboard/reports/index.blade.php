@@ -6,6 +6,7 @@
             background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(76, 121, 255));
         } */
 </style>
+<link rel="icon" type="image/png" href="{{ asset('storage/images/logo.png') }}" />
 <div class="container py-5">
     @if (session()->has('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">

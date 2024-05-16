@@ -48,16 +48,15 @@
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
-                                <th scope="col">Buku yang Dipinjam</th>
-                                <th scope="col">Nama Petugas</th>
-                                <th scope="col">Nama Peminjam</th>
-                                <th scope="col">Tanggal Peminjaman</th>
-                                <th scope="col">Tenggat Waktu</th>
-                                <th scope="col">Tanggal Pengembalian</th>
+                                <th scope="col">Buku yang <br> dipinjam</th>
+                                <th scope="col">Nama <br> Petugas</th>
+                                <th scope="col">Nama <br>Peminjam</th>
+                                <th scope="col">Tanggal <br>Pinjam</th>
+                                <th scope="col">Tenggat <br>Waktu</th>
+                                <th scope="col">Tanggal <br>Kembali</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Denda</th>
-                                <th scope="col">Jumlah Pinjam</th>
-                                <th scope="col">Jumlah Hari</th>
+                                  <th scope="col">Jumlah <br> Hari</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>

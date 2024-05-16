@@ -123,8 +123,11 @@
                                 <div class="col-sm-9">
                                     <input class="form-control" type="file" accept=".jpg,.gif,.png" id="image"
                                         name="nama_gambar" onchange="previewImage()">
+                                        <small class="text-muted">  Silakan unggah file berformat JPG, GIF, atau PNG ukuran maksimal 5 mb.</small>
+                                    </div>
                                 </div>
                             </div>
+
                             <hr>
                             <button class="btn btn-primary" type="submit">Tambahkan Buku</button>
                         </form>

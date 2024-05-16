@@ -5,6 +5,13 @@
         /* .card {
             background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(76, 121, 255));
         } */
+        .table th, .table td {
+        white-space: normal;
+        /* word-wrap: break-word; */
+    }
+        .table th.jabatan-col, .table td.jabatan-col {
+        max-width: 10px; /* Anda bisa menyesuaikan nilai ini */
+    }
     </style>
     <div class="container py-5">
         @if (session()->has('success'))
@@ -52,13 +59,13 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Nama Lengkap</th>
+                                    <th scope="col">Nama <br>Lengkap</th>
                                     <th scope="col">NIP</th>
                                     <th scope="col">Jabatan</th>
-                                    <th scope="col">Alamat</th>
-                                    <th scope="col">Nomor Telepon</th>
+                                    <th scope="col" class="jabatan-col">Alamat</th>
+                                    <th scope="col">Nomor <br>Telepon</th>
                                     <th scope="col">E-mail</th>
-                                    <th scope="col">Foto Profil</th>
+                                    <th scope="col">Foto <br>Profil</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -91,8 +98,9 @@
                                                 class="d-inline">
                                                 @method('delete')
                                                 @csrf
-                                                <button class="badge bg-danger border-0"
+                                                <button class="badge bg-danger border-0 " 
                                                     onclick="return confirm('Anda Yakin?')">Hapus</button>
+                                                   
                                             </form>
                                         </td>
                                     </tr>

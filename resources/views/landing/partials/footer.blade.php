@@ -15,16 +15,16 @@
     }
 
     .form-control {
-        background: #212529;
+        background: #ffffff;
         border-color: #545454;
     }
 
     .form-control:focus {
-        background: #212529;
+        background: #ffffff;
     }
 
     footer {
-        background-image: linear-gradient(to right, #5e72e4, #5e72e4);
+        background-image: linear-gradient(to right, #6b7eed, #5e72e4);
     }
 </style>
 

@@ -102,22 +102,23 @@
         <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
             <div class="lc-block mb-3">
                 <div editable="rich">
-                    <h4 class="title">Struktur Organisasi</h4>
+                    <h4 class="title">Struktur Organisasi Perpustakaan SMP Negeri 03  </h4>
 
                 </div>
             </div>
             <div class="lc-block mb-3">
                 <div editable="rich">
                     <h4 class="title">Kepala Sekolah</h4>
-                    <p class="lead">Satrul Azis</p>
-                    <h4 class="title">Komite</h4>
-                    <p class="lead">Sulianto, M.Pd</p>
-                    <h4 class="title">Waka Bid. Kurikulum</h4>
-                    <p class="lead">Fitri Ekawati, M.Pd</p>
-                    <h4 class="title">Kapala Perpustakaan</h4>
-                    <p class="lead">Yurni Sulaya, S.Pd</p>
-                    <h4 class="title">Staff Perpustakaan</h4>
-                    <p class="lead">Fatimawati S,Pd.</p>
+                    <p class="lead">Satrul Azis, S.Pd., M.Pd <br>
+                        NIP. 19690106 109801 1 002
+                    </p>
+                    <h4 class="title">KA. Perpustakaan</h4>
+                    <p class="lead">Harunnurrasyid, S.Pd <br>
+                        NIP. 19690106 109801 1 002
+                    <h4 class="title">Petugas Perpustakaan</h4>
+                    <p class="lead">Anissa Desty Khairoeni, S.Pd <br> </p>
+
+ 
                 </div>
             </div>
         </div>

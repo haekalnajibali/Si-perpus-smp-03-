@@ -80,25 +80,47 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-sm-3">
                                 <p class="mb-0">Tenggat Pengembalian</p>
                             </div>
                             <div class="col-sm-9">
                                 <input type="date" class="form-control" name="tgl_kembali" value="<?php
-                                $Date1 = date('Y-m-d');
-                                echo date('Y-m-d', strtotime($Date1 . ' + 7 day')); ?>"
+                                // $Date1 = date('Y-m-d');
+                                // echo date('Y-m-d', strtotime($Date1 . ' + 7 day')); ?>"
                                     readonly>
                             </div>
                         </div>
-                        <hr>
+                        <hr> --}}
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Tenggat Pengembalian</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="tenggat_pengembalian" onchange="updateTanggal()">
+                                    <option value="7">7 Hari</option>
+                                    <option value="180">180 Hari</option>
+                                    <option value="365">365 Hari</option>
+                                </select>
+                                <?php
+                                    $Date1 = date('Y-m-d');
+                                    $tgl_kembali_7 = date('Y-m-d', strtotime($Date1 . ' + 7 day'));
+                                    $tgl_kembali_180 = date('Y-m-d', strtotime($Date1 . ' + 180 day'));
+                                    $tgl_kembali_365 = date('Y-m-d', strtotime($Date1 . ' + 365 day'));
+                                ?>
+                                <input type="date" class="form-control mt-2" id="tgl_kembali" name="tgl_kembali" value="<?php echo $tgl_kembali_7; ?>" readonly>
+                            </div>
+                        </div>
+                        
+<br>
                         <div class="row">
                             <div class="col-sm-3">
                                 <p class="mb-0">Jumlah Eksemplar yang Dipinjam (Jangan melebihi eksemplar
                                     tersedia)</p>
                             </div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="jml_pinjam" required id="eksemplarubah">
+                                <input type="text" class="form-control" name="jml_pinjam" required id="eksemplarubah" value='1' readonly>
                             </div>
                         </div>
                         <hr>
@@ -223,4 +245,28 @@
                 startQRCodeScan();
             });
         </script>
+        
+        <script>
+            function updateTanggal() {
+                var selectedValue = document.getElementsByName("tenggat_pengembalian")[0].value;
+                var tgl_kembali = document.getElementById("tgl_kembali");
+                var Date1 = new Date();
+        
+                if (selectedValue == "7") {
+                    Date1.setDate(Date1.getDate() + 7);
+                } else if (selectedValue == "180") {
+                    Date1.setDate(Date1.getDate() + 180);
+                } else if (selectedValue == "365") {
+                    Date1.setDate(Date1.getDate() + 365);
+                }
+        
+                var year = Date1.getFullYear();
+                var month = String(Date1.getMonth() + 1).padStart(2, '0');
+                var day = String(Date1.getDate()).padStart(2, '0');
+        
+                var formattedDate = year + '-' + month + '-' + day;
+                tgl_kembali.value = formattedDate;
+            }
+        </script>
+        
     @endpush

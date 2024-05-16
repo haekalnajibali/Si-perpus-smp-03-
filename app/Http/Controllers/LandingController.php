@@ -24,7 +24,7 @@ class LandingController extends Controller
             'active' => 'opac',
             'books' => Book::orderBy('rak_id', 'desc')
                 ->filter(request(['search']))
-                ->paginate(7)
+                ->paginate(20)
                 ->withQueryString(),
             'raks' => Rak::paginate(3)
             ->withQueryString(),

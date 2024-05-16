@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-4 mb-md-0 mb-4">
+            {{-- <div class="col-12 mt-4 mb-md-0 mb-4">
                 <div class="card z-index-2 h-100">
                     <div class="card-header pb-0 pt-3 bg-transparent">
                         <h6 class="text-capitalize">Transaksi</h6>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
 

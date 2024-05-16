@@ -22,7 +22,7 @@ class MemberController extends Controller
         return view('dashboard.members.index', [
             'members' => Member::orderBy('nama')
                 ->filter(request(['search']))
-                ->paginate(10)
+                ->paginate(100)
                 ->withQueryString(),
             'active' => 'members',
             'count' => Member::get()->count(),
@@ -106,13 +106,13 @@ class MemberController extends Controller
     {
         $rules = [
             'nama' => 'required',
-            'nisn' => 'required|unique:members',
+            'nisn' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
             'jns_kelamin' => 'required',
             'jns_anggota' => 'required',
             'alamat' => 'required',
-            'no_hp' => 'required|unique:members',
+            'no_hp' => 'required',
             'nama_gambar' => 'image|file|max:50000',
         ];
 

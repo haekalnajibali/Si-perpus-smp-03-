@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="{{ asset('storage/images/logo.png') }}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -35,13 +36,13 @@
                         </div>
                         <div class="row">
                             <div class="col-9" style="padding-right: 0px; line-height: 0.8;">
-                                <table class="table table-borderless table-sm"
+                                <table class="tableaa table-borderless table-sm"
                                     style="font-size: 10pt; font-weight:lighter;">
                                     <thead>
                                         <tr>
-                                            <th scope="col-4"></th>
-                                            <th scope="col-1"></th>
-                                            <th scope="col-4"></th>
+                                            <th scope="col-12"></th>
+                                            <th scope="col-12"></th>
+                                            <th scope="col-12"></th>
 
                                         </tr>
                                     </thead>
@@ -62,11 +63,7 @@
                                             <th>:</th>
                                             <th>{{ $member->jns_kelamin }}</th>
                                         </tr>
-                                        <tr>
-                                            <th>Alamat</th>
-                                            <th>:</th>
-                                            <th>{{ $member->alamat }}</th>
-                                        </tr>
+
                                         <tr>
                                             <th>Nomor Telepon</th>
                                             <th>:</th>
@@ -77,11 +74,17 @@
                                             <th>:</th>
                                             <th>{{ $member->jns_anggota }}</th>
                                         </tr>
+                                        <tr>
+                                            <th>Alamat</th>
+                                            <th>:</th>
+                                            <th>{{ $member->alamat }}</th>
+                                        </tr>
+  
 
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-3 justify-content-center" style="padding: 0px">
+                            <div class="col-2 justify-content-center" style="padding: 0px; margin-top: 12px;"
                                 <br>
                                 <img src="{{ asset('storage/images/' . $member->nama_gambar) }}" class="rounded"
                                     style="height: 3cm; width:3cm;">
@@ -92,7 +95,13 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+       
+
+   
+        <div class="row">
+            <div class="row">
+                <div class="row">
+        <div class="col 6">
             <div class="py-1 px-2" style="width: 14cm; height: 5.6cm;">
                 <div class="card" style="height: 7cm; background-color: #80e3ff;">
                     <div class="card-body">
@@ -112,12 +121,13 @@
                                 <h6 style="font-size: 10pt; font-weight:bold;">
                                     <center>KARTU ANGGOTA PERPUSTAKAAN</center>
                                 </h6>
+                                
 
                             </div>
                         </div>
                         <div class="row relative">
                             <div class="col-9" style="padding-right: 0px">
-                                <table class="table table-borderless table-sm"
+                                <table class="tableaa table-borderless table-sm"
                                     style="font-size: 10pt; font-weight:lighter;">
                                     <thead>
                                         <tr>
@@ -126,13 +136,11 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th>Catatan</th>
+                                            <th>- Kartu harap disimpan dengan baik <br>
+                                                - Tunjukkan kartu ini untuk melakukan peminjaman</th>
                                         </tr>
                                         <tr>
-                                            <th>1. Kartu harap disimpan dengan baik</th>
-                                        </tr>
-                                        <tr>
-                                            <th>2. Tunjukkan kartu ini untuk melakukan peminjaman</th>
+                                            <th></th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -150,6 +158,7 @@
         </div>
         <div class="col">
         </div>
+    </div>
     </div>
 </body>
 

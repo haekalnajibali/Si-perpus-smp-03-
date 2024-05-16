@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" name="nama" required autofocus
-                                    placeholder="Masukkan Nama..." oninput="this.value = this.value.replace(/[^a-z A-Z]/g, '')">
+                                    placeholder="Masukkan Nama..." oninput="this.value = this.value.replace(/[^ A-Z]/g, '')">
                             </div>
                         </div>
                         <hr>
@@ -114,16 +114,15 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="jns_anggota" value="Guru"
-                                        checked>
+                                    <input class="form-check-input" type="radio" value="Siswa" name="jns_anggota" checked>
                                     <label class="form-check-label">
-                                        Guru
+                                        Siswa
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="Siswa" name="jns_anggota">
+                                    <input class="form-check-input" type="radio" name="jns_anggota" value="Guru">
                                     <label class="form-check-label">
-                                        Siswa
+                                        Guru
                                     </label>
                                 </div>
                             </div>

@@ -27,7 +27,7 @@ class BookController extends Controller
             'active' => 'books',
             'books' => Book::orderBy('rak_id', 'desc')
                 ->filter(request(['search']))
-                ->paginate(7)
+                ->paginate(150)
                 ->withQueryString(),
             'count' => Book::get()->count(),
         ]);
@@ -117,7 +117,7 @@ class BookController extends Controller
             'penerbit' => 'required',
             'thn_terbit' => 'required',
             'eksemplar' => ['required', new PositiveInteger],
-            'nama_gambar' => 'image|file|max:50000',
+            'nama_gambar' => 'image|file|max:5000',
         ];
         if ($request->no_barcode != $book->no_barcode) {
             $rules['no_barcode'] = 'required|unique:books';

@@ -2,6 +2,10 @@
 
 @section('container')
     <style>
+        .wrap-text {
+            white-space: normal;
+            word-wrap: break-word;
+        }
         /* .card {
             background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(76, 121, 255));
         } */
@@ -51,14 +55,14 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Nama Lengkap</th>
+                                    <th scope="col">Nama <br> Lengkap</th>
                                     <th scope="col">NISN</th>
-                                    <th scope="col">Tempat Lahir</th>
-                                    <th scope="col">Tanggal Lahir</th>
-                                    <th scope="col">Jenis Kelamin</th>
-                                    <th scope="col">Alamat</th>
-                                    <th scope="col">Nomor Telepon</th>
-                                    <th scope="col">Jenis Anggota</th>
+                                    <th scope="col">Tempat <br> Lahir</th>
+                                    <th scope="col">Tanggal <br>Lahir</th>
+                                    <th scope="col">Jenis <br>Kelamin</th>
+                                    <th scope="col" class="wrap-text">Alamat</th>
+                                    <th scope="col">Nomor <br>Telepon</th>
+                                    <th scope="col">Jenis<br> Anggota</th>
                                     <th scope="col">Foto</th>
                                     <th scope="col">Barcode</th>
                                     <th scope="col">Action</th>
